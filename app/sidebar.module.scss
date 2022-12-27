@@ -1,0 +1,36 @@
+.nav{
+  background: #01354E;
+  padding-top: 2rem;
+  color: #f2f2f2;
+  :global a{
+    color: #f2f2f2;
+  }
+}
+
+.profile{
+  display: flex;
+  align-items: center;
+  :global .name
+  {
+    color: #f2f2f2;
+  }
+  :global .desc{
+    color: #9CA0A5;
+    font-weight: 200;
+    font-size: 0.7rem;
+  }
+  :global img{
+    margin-right: 1rem;
+  }
+}
+
+.icon{
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  color: #f2f2f2;
+}
+
+.item{
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}

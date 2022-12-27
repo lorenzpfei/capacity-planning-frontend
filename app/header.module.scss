@@ -1,0 +1,9 @@
+.header, .headerContent, .profile{
+  display: flex;
+  align-items: center;
+}
+
+.headerContent{
+  justify-content: space-between;
+  width: 100%;
+}
