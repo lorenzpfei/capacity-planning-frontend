@@ -2,14 +2,19 @@
   background: #01354E;
   padding-top: 2rem;
   color: #f2f2f2;
+  position: relative;
   :global a{
     color: #f2f2f2;
   }
 }
 
 .profile{
+  position: absolute;
   display: flex;
   align-items: center;
+  bottom: 2rem;
+  left: 1rem;
+
   :global .name
   {
     color: #f2f2f2;

@@ -6,7 +6,15 @@ import React, {useState} from 'react';
 import {navigation, NavigationItem} from "../lib/navigation";
 import styles from "./sidebar.module.scss";
 import Image from "next/image";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {IconType} from "react-icons";
+
+const renderIcon = (icon: IconType | null, index: number) => {
+    if (icon === null) return;
+    const Icon = icon;
+    return (
+        <Icon className={styles.icon} key={index}/>
+    );
+};
 
 export function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -15,24 +23,24 @@ export function Sidebar() {
     return (
         <nav className={`${styles.nav} side`}>
             <div className={'container-text '}>
-                {navigation.map((section) => {
+                {navigation.map((section, index) => {
                     return (
                         <div key={section.name}>
                             <div className={styles.item}>
-                            {section.childs === undefined ? (
-                                    <Link
-                                        onClick={close}
-                                        href={`/${section.slug}`}>
-                                        <FontAwesomeIcon icon={section.icon} className={styles.icon}/> {section.name}
-                                    </Link>
-                                ) :
-                                (
-                                    <div><FontAwesomeIcon icon={section.icon} className={styles.icon}/> {section.name}</div>
-                                )}
+                                {section.childs === undefined ? (
+                                        <Link
+                                            onClick={close}
+                                            href={`/${section.slug}`}>
+                                            {renderIcon(section.icon, index)} {section.name}
+                                        </Link>
+                                    ) :
+                                    (
+                                        <div>{renderIcon(section.icon, index)} {section.name}</div>
+                                    )}
                             </div>
 
                             <div className="space-y-1">
-                                {section.childs ? section.childs.map((item) => (
+                                {section.childs ? section.childs.map((item, itemIndex) => (
                                     <SubNav key={item.slug} item={item} close={close}/>
                                 )) : null}
                             </div>
@@ -52,9 +60,9 @@ export function Sidebar() {
 }
 
 function SubNav({
-                item,
-                close,
-            }: {
+                    item,
+                    close
+                }: {
     item: NavigationItem;
     close: () => false | void;
 }) {
@@ -66,7 +74,7 @@ function SubNav({
             <Link
                 onClick={close}
                 href={`/${item.slug}`}>
-                <FontAwesomeIcon icon={item.icon} className={styles.icon}/> {item.name}
+                {renderIcon(item.icon, 0)} {item.name}
             </Link>
         </div>
     );

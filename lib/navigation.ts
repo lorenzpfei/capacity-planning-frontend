@@ -1,10 +1,14 @@
-import {faCoffee} from "@fortawesome/free-solid-svg-icons";
-import {IconDefinition} from "@fortawesome/fontawesome-svg-core";
+import {IconType} from "react-icons";
+import {AiOutlineHome} from "react-icons/ai";
+import {TbReportAnalytics} from "react-icons/tb";
+import {GiSettingsKnobs} from "react-icons/gi";
+import {IoStatsChartSharp} from "react-icons/io5";
+
 
 export type NavigationItem = {
     name: string;
     slug: string;
-    icon: IconDefinition;
+    icon: IconType | null;
     childs?: NavigationItem[];
 };
 
@@ -12,23 +16,23 @@ export const navigation: NavigationItem[] = [
     {
         name: "Dashboard",
         slug: '',
-        icon: faCoffee
+        icon: AiOutlineHome
     },
     {
         name: "Reporting",
         slug: '',
-        icon: faCoffee,
-        childs:[
+        icon: TbReportAnalytics,
+        childs: [
             {
                 name: 'Workload',
                 slug: 'workload',
-                icon: faCoffee
+                icon: IoStatsChartSharp
             },
         ]
     },
     {
         name: 'Settings',
         slug: '',
-        icon: faCoffee
+        icon: GiSettingsKnobs
     }
 ];
