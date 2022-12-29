@@ -1,41 +1,161 @@
-.nav{
-  background: #01354E;
-  padding-top: 2rem;
-  color: #f2f2f2;
+$cPrimary: #6671E1;
+$cSecondary: #6E6E73FF;
+
+.nav {
+  background: #fff;
+  color: $cSecondary;
   position: relative;
-  :global a{
-    color: #f2f2f2;
+  min-width: 15rem;
+
+  :global a {
+    color: $cSecondary;
+
+    &:hover {
+      color: $cPrimary;
+    }
   }
 }
 
-.profile{
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;;
+}
+
+.profile {
   position: absolute;
   display: flex;
   align-items: center;
   bottom: 2rem;
   left: 1rem;
 
-  :global .name
-  {
-    color: #f2f2f2;
+  :global .name {
+    color: $cPrimary;
   }
-  :global .desc{
-    color: #9CA0A5;
+
+  :global .desc {
+    color: $cSecondary;
     font-weight: 200;
     font-size: 0.7rem;
+    svg{
+      font-size: 1rem;
+    }
   }
-  :global img{
+
+  :global img {
     margin-right: 1rem;
   }
 }
 
-.icon{
-  margin-right: 1rem;
-  font-size: 1.2rem;
-  color: #f2f2f2;
+.side {
+  min-width: 20%;
 }
 
-.item{
+.icon {
+  margin-right: 1rem;
   font-size: 1.2rem;
-  margin-bottom: 1rem;
+  color: $cSecondary;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.collapse {
+  width: 60px;
+  min-width: initial;
+  overflow: hidden;
+
+  :global .logo-img {
+    width: 50px;
+  }
+
+  a.item {
+    display: block;
+  }
+}
+
+.item {
+  font-size: 1.2rem;
+  padding: 1rem;
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+
+  div[class*="subitem"]:first-child {
+    margin-top: 0.5rem !important;
+  }
+
+  &:hover {
+    background: rgba(#6671E1, 0.1);
+
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: $cPrimary;
+      content: '';
+    }
+
+    a {
+      color: $cPrimary;
+    }
+
+    svg {
+      color: $cPrimary;
+    }
+  }
+}
+
+.override {
+  :global div {
+    padding: 0;
+    font-weight: 400;
+  }
+
+  :global .nextui-collapse-title-container {
+    width: 100%;
+    padding: 1rem;
+    position: relative;
+
+    &:hover {
+      background: rgba(#6671E1, 0.1);
+
+      h3 {
+        color: $cPrimary !important;
+      }
+
+      svg {
+        color: $cPrimary;
+      }
+
+      &::before {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 3px;
+        background: $cPrimary;
+        content: '';
+      }
+    }
+
+  }
+
+  :global .nextui-collapse-title-content-left {
+    margin-right: 0 !important;
+  }
+
+  :global h3 {
+    font-size: 1.2rem;
+    color: $cSecondary !important;
+    font-weight: 400;
+  }
+}
+
+.subitem {
+  margin-left: 3.3rem;
 }

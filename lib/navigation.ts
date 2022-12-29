@@ -2,7 +2,6 @@ import {IconType} from "react-icons";
 import {AiOutlineHome} from "react-icons/ai";
 import {TbReportAnalytics} from "react-icons/tb";
 import {GiSettingsKnobs} from "react-icons/gi";
-import {IoStatsChartSharp} from "react-icons/io5";
 
 
 export type NavigationItem = {
@@ -26,7 +25,12 @@ export const navigation: NavigationItem[] = [
             {
                 name: 'Workload',
                 slug: 'workload',
-                icon: IoStatsChartSharp
+                icon: null
+            },
+            {
+                name: 'test',
+                slug: '',
+                icon: null
             },
         ]
     },

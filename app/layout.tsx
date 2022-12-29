@@ -1,8 +1,8 @@
 import './globals.css'
 import React from "react";
-import { Sidebar } from './sidebar';
+import {Sidebar} from './sidebar';
 import Header from './header';
-import { Inter } from '@next/font/google'
+import {Inter} from '@next/font/google'
 
 const inter = Inter({
     weight: '400',
@@ -12,13 +12,13 @@ const inter = Inter({
 export default function RootLayout({children}: { children: React.ReactNode }) {
     return (
         <html lang="de" className={inter.className}>
-            <body>
-                <Header/>
-                <main>
-                    <Sidebar/>
-                    <div className={'content container-text'}>{children}</div>
-                </main>
-            </body>
+        <body>
+        <Sidebar/>
+        <main>
+            <Header/>
+            <div className={'content container-text'}>{children}</div>
+        </main>
+        </body>
         </html>
     )
 }
