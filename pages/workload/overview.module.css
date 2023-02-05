@@ -1,0 +1,38 @@
+div.week {
+    display: flex;
+    gap: 1rem;
+}
+
+div.info {
+    min-width: 12rem;
+}
+
+div.title {
+    font-weight: bold;
+}
+
+div.besides {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.box {
+    gap: 0;
+}
+
+div.boxInside {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+div.text {
+    padding: 2rem;
+}
+
+div.avatar {
+    max-width: 50px;
+    border-radius: 50%;
+}
