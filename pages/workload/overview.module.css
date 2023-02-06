@@ -4,7 +4,7 @@ div.week {
 }
 
 div.info {
-    min-width: 12rem;
+    min-width: max-content;
 }
 
 div.title {
@@ -16,6 +16,7 @@ div.besides {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 div.box {
@@ -26,6 +27,7 @@ div.boxInside {
     overflow: hidden;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 div.text {
@@ -35,4 +37,8 @@ div.text {
 div.avatar {
     max-width: 50px;
     border-radius: 50%;
+}
+
+div.days{
+    width: 100%;
 }

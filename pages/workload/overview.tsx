@@ -1,7 +1,9 @@
-import {Card, Image, Progress, SimpleGrid, Stack, Text} from "@mantine/core";
+import {Card, Image, Modal, Progress, SimpleGrid, Stack, Text} from "@mantine/core";
 import styles from './overview.module.css';
+import {useState} from "react";
+import DayBox from "@/components/DayBox/DayBox";
 
-interface User {
+export interface User {
     id: number;
     name: string;
     email: string;
@@ -12,10 +14,11 @@ interface User {
     workloadSum?: Workload;
 }
 
-interface Workload {
+export interface Workload {
     hoursContract: number;
     hoursTimeoff: number;
     hoursTask: number;
+    tasks: [];
 }
 
 const Overview = ({users}: { users: User[] }) => {
@@ -41,6 +44,7 @@ const Overview = ({users}: { users: User[] }) => {
                             sx={(theme) => ({
                                 backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
                             })}
+                            style={{overflow: "visible"}}
                         >
                             <div className={styles.info}>
                                 <div className={styles.besides}>
@@ -66,7 +70,7 @@ const Overview = ({users}: { users: User[] }) => {
                             <Progress value={weeklyPercentage * 100} mt="md" size="lg" radius="xl"
                                       color={weeklyPercentage < 0.8 ? 'teal' : 'red'}/>
                         </Card>
-                        <div className="days">
+                        <div className={styles.days}>
                             <Card
                                 withBorder
                                 radius="md"
@@ -78,18 +82,9 @@ const Overview = ({users}: { users: User[] }) => {
                                 <SimpleGrid cols={5} style={{gap: 3}}>
                                     {user.workload ? user.workload.map((workload, index) => {
                                         return (
-                                            <Stack key={index} className={styles.box} style={{backgroundColor: 'rgba(25, 113, 194, 0.2)', justifyContent: 'end'}}>
-                                                <div className={styles.boxInside}
-                                                     style={{height: workload.hoursTask / workload.hoursContract * 100 + '%', backgroundColor: 'rgba(25, 113, 194, 0.8)'}}>
-                                                    <div className={styles.text}>Aufgaben</div>
-                                                </div>
-                                                <div className={styles.boxInside}
-                                                     style={{height: workload.hoursTimeoff / workload.hoursContract * 100 + '%', backgroundColor: 'rgba(25, 113, 194, 0.4)'}}>
-                                                    <div className={styles.text}>Urlaub</div>
-                                                </div>
-                                            </Stack>
+                                            <DayBox workload={workload} key={index}/>
                                         )
-                                    }) : 'q'}
+                                    }) : ''}
                                 </SimpleGrid>
                             </Card>
                         </div>
