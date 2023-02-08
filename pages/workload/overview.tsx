@@ -1,7 +1,9 @@
-import {Card, Image, Modal, Progress, SimpleGrid, Stack, Text} from "@mantine/core";
+import {Card, Image, Progress, SimpleGrid, Text} from "@mantine/core";
 import styles from './overview.module.css';
 import {useState} from "react";
 import DayBox from "@/components/DayBox/DayBox";
+import {DateRangePicker, DateRangePickerValue} from "@mantine/dates";
+import 'dayjs/locale/de';
 
 export interface User {
     id: number;
@@ -19,15 +21,58 @@ export interface Workload {
     hoursTimeoff: number;
     hoursTask: number;
     tasks: [];
+    date: string;
 }
 
-const Overview = ({users}: { users: User[] }) => {
-    console.log(users); //todo: remove debug
+const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday: string, friday: string }) => {
+    const [users, setUsers] = useState<User[]>(initialUsers);
+
+    const [date, setDate] = useState<DateRangePickerValue>([
+        new Date(monday),
+        new Date(friday),
+    ]);
+
+    const changeDateRange = (dates: DateRangePickerValue) => {
+        setDate(dates);
+        if (dates[0] !== null && dates[1] !== null) {
+            //need to use swedish here for the correct time format
+            fetch('http://127.0.0.1:8000/workload/1/' + dates[0].toLocaleDateString('sv-SE', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split('/').reverse().join('-') + '/' + dates[1].toLocaleDateString('sv-SE', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split('/').reverse().join('-') + '/', {
+                mode: 'cors',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                }
+            }).then((data) => {
+                data.json().then((res) => {
+                    setUsers(res);
+                })
+            })
+        }
+    }
 
     return (
         <>
             <h1>Workload</h1>
             <h2>Development</h2>
+            <div className={styles.week}>
+                <div className={styles.info}>
+                    <DateRangePicker
+                        label="Zeitraum wählen"
+                        placeholder="Zeitraum wählen"
+                        value={date}
+                        onChange={changeDateRange}
+                        locale={'de'}
+                        inputFormat="DD.MM.YYYY"
+                    />
+                </div>
+            </div>
             {users.map((user, index) => {
                 if (!(user.workloadSum && user.workload)) {
                     return (<p key={index}>Es konnten keine Kapazitätsdaten für {user.name} gefunden werden.</p>)
@@ -52,7 +97,7 @@ const Overview = ({users}: { users: User[] }) => {
                                         <Image radius="xl"
                                                src={user.avatar}
                                                alt={user.name}
-                                                width={40}/>
+                                               width={40}/>
                                     </div>
                                     <div>
                                         <Text size="lg" weight={500}>{user.name}</Text>
@@ -96,12 +141,24 @@ const Overview = ({users}: { users: User[] }) => {
 }
 
 export async function getServerSideProps() {
+    const getDayInWeek = (d: Date, dayNo: number) => {
+        d = new Date(d);
+        let day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6 : dayNo); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+    }
+
+    let monday = getDayInWeek(new Date(), 1);
+    let friday = getDayInWeek(new Date(), 5);
+
     // Fetch data from external API
-    const res = await fetch(`http://127.0.0.1:8000/workload/1/2023-02-06/2023-02-10`)
+    const res = await fetch('http://127.0.0.1:8000/workload/1/' + monday.toISOString().slice(0, 10) + '/' + friday.toISOString().slice(0, 10) + '/')
     const users: User[] = await res.json()
     return {
         props: {
-            users: JSON.parse(JSON.stringify(users))
+            initialUsers: JSON.parse(JSON.stringify(users)),
+            monday: monday.toISOString(),
+            friday: friday.toISOString()
         }
     }
 }

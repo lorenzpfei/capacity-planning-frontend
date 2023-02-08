@@ -1,6 +1,7 @@
 div.week {
     display: flex;
     gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 div.info {
@@ -41,4 +42,9 @@ div.avatar {
 
 div.days{
     width: 100%;
+}
+
+div.header {
+    text-align: center;
+    font-weight: bold;
 }
