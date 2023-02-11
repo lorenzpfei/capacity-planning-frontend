@@ -59,13 +59,13 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
 
     return (
         <>
-            <h1>Workload</h1>
+            <h1>Capacities</h1>
             <h2>Development</h2>
             <div className={styles.week}>
                 <div className={styles.info}>
                     <DateRangePicker
-                        label="Zeitraum wählen"
-                        placeholder="Zeitraum wählen"
+                        label="Select period"
+                        placeholder="Select period"
                         value={date}
                         onChange={changeDateRange}
                         locale={'de'}
@@ -89,7 +89,7 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
                             sx={(theme) => ({
                                 backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
                             })}
-                            style={{overflow: "visible"}}
+                            className={styles.card}
                         >
                             <div className={styles.info}>
                                 <div className={styles.besides}>
@@ -102,18 +102,20 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
                                     <div>
                                         <Text size="lg" weight={500}>{user.name}</Text>
                                         <Text size="xs" transform="uppercase" weight={700}
-                                              color="dimmed">{Math.round(user.workloadSum.hoursTimeoff + user.workloadSum.hoursTask * 100) / 100} / {user.workloadSum?.hoursContract} Stunden</Text>
+                                              color="dimmed">{Math.round(user.workloadSum.hoursTimeoff + user.workloadSum.hoursTask * 100) / 100} / {user.workloadSum?.hoursContract} Hours</Text>
                                     </div>
                                 </div>
                             </div>
-                            <div className={styles.besides}>
-                                <Text size="xs" color="dimmed" mt={7}>Auslastung</Text>
-                                <Text component="span" color={weeklyPercentage < 0.8 ? 'teal' : 'red'} weight={700}>
-                                    {Math.round(weeklyPercentage * 100 * 100) / 100}%
-                                </Text>
+                            <div>
+                                <div className={styles.besides}>
+                                    <Text size="xs" color="dimmed" mt={7}>Load</Text>
+                                    <Text component="span" color={weeklyPercentage < 0.8 ? 'teal' : '#E27574'} weight={700}>
+                                        {Math.round(weeklyPercentage * 100 * 100) / 100}%
+                                    </Text>
+                                </div>
+                                <Progress value={weeklyPercentage * 100} mt="md" size="lg" radius="xl"
+                                          color={weeklyPercentage < 0.8 ? 'teal' : '#E27574'}/>
                             </div>
-                            <Progress value={weeklyPercentage * 100} mt="md" size="lg" radius="xl"
-                                      color={weeklyPercentage < 0.8 ? 'teal' : 'red'}/>
                         </Card>
                         <div className={styles.days}>
                             <Card

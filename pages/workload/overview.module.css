@@ -34,16 +34,20 @@ div.boxInside {
 }
 
 div.boxBackground{
-    background-color: #D1E3F3;
+    background-color: #B6F2E4;
     justify-content: end;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     height: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px 5px;
 }
 
 div.text {
-    padding: 2rem;
+    padding: 1.8rem;
+    color: #fafafa;
 }
 
 div.avatar {
@@ -58,4 +62,12 @@ div.days{
 div.header {
     text-align: center;
     font-weight: bold;
+}
+
+div.card
+{
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }

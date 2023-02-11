@@ -17,7 +17,8 @@ const DayBox = ({workload}: IDayBox) => {
 
     const formatDate = (date: string) => {
         let options: any = {year: 'numeric', month: '2-digit', day: '2-digit'};
-        return new Date(date).toLocaleDateString([], options);
+        let optionsDay: any = {weekday: 'short'};
+        return new Date(date).toLocaleDateString([], optionsDay) + ' ' + new Date(date).toLocaleDateString([], options);
     }
 
     const getBoxHeight = (workload: Workload) => {
@@ -26,7 +27,7 @@ const DayBox = ({workload}: IDayBox) => {
     }
 
     const getBoxColor = (workload: Workload) => {
-        return workload.hoursTask / workload.hoursContract * 100 === 100 ? '#DE6D6C' : '#192D3F';
+        return workload.hoursTask / workload.hoursContract * 100 === 100 ? 'linear-gradient(180deg, rgba(238,142,141,1) 0%, rgba(214,92,91,1) 100%)' : 'linear-gradient(180deg, rgba(115,201,171,1) 0%, rgba(91,175,143,1) 100%)';
     }
 
     const getBoxText = (workload: Workload) => {
@@ -34,7 +35,7 @@ const DayBox = ({workload}: IDayBox) => {
             <>
                 <b>{workload.hoursTask}h</b>
                 <br/>
-                Ausgelastet
+                Full capacity
             </>
         ) : '📋';
     }
@@ -66,7 +67,7 @@ const DayBox = ({workload}: IDayBox) => {
                     className={styles.boxInside}
                     style={{
                         height: getBoxHeight(workload),
-                        backgroundColor: getBoxColor(workload),
+                        background: getBoxColor(workload),
                     }}
                 >
                     <div className={styles.text}>{getBoxText(workload)}</div>
@@ -75,7 +76,7 @@ const DayBox = ({workload}: IDayBox) => {
                     className={styles.boxInside}
                     style={{
                         height: `${workload.hoursTimeoff / workload.hoursContract * 100}%`,
-                        backgroundColor: 'rgba(25, 113, 194, 0.4)',
+                        background: 'linear-gradient(180deg, rgba(252,227,48,1) 0%, rgba(252,188,48,1) 100%)',
                     }}
                 >
                     <div className={styles.text}>🌴</div>
