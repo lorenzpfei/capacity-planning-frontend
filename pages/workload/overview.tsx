@@ -36,7 +36,7 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
         setDate(dates);
         if (dates[0] !== null && dates[1] !== null) {
             //need to use swedish here for the correct time format
-            fetch('http://127.0.0.1:8000/workload/1/' + dates[0].toLocaleDateString('sv-SE', {
+            fetch(process.env.NEXT_PUBLIC_API_URL + '/workload/1/' + dates[0].toLocaleDateString('sv-SE', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit'
@@ -109,7 +109,8 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
                             <div>
                                 <div className={styles.besides}>
                                     <Text size="xs" color="dimmed" mt={7}>Load</Text>
-                                    <Text component="span" color={weeklyPercentage < 0.8 ? 'teal' : '#E27574'} weight={700}>
+                                    <Text component="span" color={weeklyPercentage < 0.8 ? 'teal' : '#E27574'}
+                                          weight={700}>
                                         {Math.round(weeklyPercentage * 100 * 100) / 100}%
                                     </Text>
                                 </div>
@@ -153,9 +154,8 @@ export async function getServerSideProps() {
 
     let monday = getDayInWeek(new Date(), 1);
     let friday = getDayInWeek(new Date(), 5);
-
     // Fetch data from external API
-    const res = await fetch('http://127.0.0.1:8000/workload/1/' + monday.toLocaleDateString('sv-SE', {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/workload/1/' + monday.toLocaleDateString('sv-SE', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
