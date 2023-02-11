@@ -22,6 +22,7 @@ div.besides {
 
 div.box {
     gap: 0;
+    flex: 0 0 calc(20% - 3px);
 }
 
 div.boxInside {
@@ -29,6 +30,15 @@ div.boxInside {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+div.boxBackground{
+    background-color: #D1E3F3;
+    justify-content: end;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 div.text {
@@ -41,7 +51,7 @@ div.avatar {
 }
 
 div.days{
-    width: 100%;
+    display: contents;
 }
 
 div.header {

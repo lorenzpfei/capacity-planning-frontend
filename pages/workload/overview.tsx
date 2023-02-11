@@ -1,7 +1,7 @@
 import {Card, Image, Progress, SimpleGrid, Text} from "@mantine/core";
 import styles from './overview.module.css';
 import {useState} from "react";
-import DayBox from "@/components/DayBox/DayBox";
+import DayBox, {Task} from "@/components/DayBox/DayBox";
 import {DateRangePicker, DateRangePickerValue} from "@mantine/dates";
 import 'dayjs/locale/de';
 
@@ -20,7 +20,7 @@ export interface Workload {
     hoursContract: number;
     hoursTimeoff: number;
     hoursTask: number;
-    tasks: [];
+    tasks: Task[];
     date: string;
 }
 
@@ -102,14 +102,14 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
                                     <div>
                                         <Text size="lg" weight={500}>{user.name}</Text>
                                         <Text size="xs" transform="uppercase" weight={700}
-                                              color="dimmed">{user.workloadSum.hoursTimeoff + user.workloadSum.hoursTask} / {user.workloadSum?.hoursContract} Stunden</Text>
+                                              color="dimmed">{Math.round(user.workloadSum.hoursTimeoff + user.workloadSum.hoursTask * 100) / 100} / {user.workloadSum?.hoursContract} Stunden</Text>
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.besides}>
                                 <Text size="xs" color="dimmed" mt={7}>Auslastung</Text>
                                 <Text component="span" color={weeklyPercentage < 0.8 ? 'teal' : 'red'} weight={700}>
-                                    {weeklyPercentage * 100}%
+                                    {Math.round(weeklyPercentage * 100 * 100) / 100}%
                                 </Text>
                             </div>
                             <Progress value={weeklyPercentage * 100} mt="md" size="lg" radius="xl"
@@ -120,11 +120,12 @@ const Overview = ({initialUsers, monday, friday}: { initialUsers: User[], monday
                                 withBorder
                                 radius="md"
                                 p={0}
+                                style={{width: '100%'}}
                                 sx={(theme) => ({
                                     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
                                 })}
                             >
-                                <SimpleGrid cols={5} style={{gap: 3}}>
+                                <SimpleGrid cols={5} style={{gap: 3, display: 'flex', overflowX: 'auto'}}>
                                     {user.workload ? user.workload.map((workload, index) => {
                                         return (
                                             <DayBox workload={workload} key={index}/>
@@ -152,7 +153,15 @@ export async function getServerSideProps() {
     let friday = getDayInWeek(new Date(), 5);
 
     // Fetch data from external API
-    const res = await fetch('http://127.0.0.1:8000/workload/1/' + monday.toISOString().slice(0, 10) + '/' + friday.toISOString().slice(0, 10) + '/')
+    const res = await fetch('http://127.0.0.1:8000/workload/1/' + monday.toLocaleDateString('sv-SE', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).split('/').reverse().join('-') + '/' + friday.toLocaleDateString('sv-SE', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).split('/').reverse().join('-') + '/')
     const users: User[] = await res.json()
     return {
         props: {
