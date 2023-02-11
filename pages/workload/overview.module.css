@@ -2,6 +2,7 @@ div.week {
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
+    width: calc(100vw - 335px);
 }
 
 div.info {
