@@ -10,12 +10,12 @@ import {api} from "@/lib/api";
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     const {Component, pageProps} = props;
     const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
-    const [isLoggedIn, setLoggedIn] = useState((getCookie('user') !== undefined));
+    const [isLoggedIn, setLoggedIn] = useState((getCookie('user')));
 
     //todo: fix this
     const setUser = useCallback(() =>{
         api.get('/me').then((res) => {
-            console.log(res); //todo: remove debug
+            setCookie('user', res.data);
             setLoggedIn(true);
         }).catch(() => {
             setLoggedIn(false);

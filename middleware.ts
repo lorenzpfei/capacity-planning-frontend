@@ -1,12 +1,13 @@
 import {NextRequest, NextResponse} from "next/server";
 
 export default function middleware(req: NextRequest) {
-    let verify = req.cookies.get("loggedin");
-    let url = req.url
-    console.log('middleware'); //todo: remove debug
-    if (!verify && !url.includes('/login')) {
-        console.log('redirect'); //todo: remove debug
+    const isLoggedIn = req.cookies.get('user');
+    let url = req.url;
+    if (!isLoggedIn && !url.includes('/login')) {
         return NextResponse.redirect("http://localhost:3000/login");
+    }
+    if (isLoggedIn && url.includes('/login')) {
+        return NextResponse.redirect("http://localhost:3000/");
     }
 }
 
