@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {ColorScheme, ColorSchemeProvider, MantineProvider} from "@mantine/core";
 import {useLocalStorage} from "@mantine/hooks";
@@ -18,19 +18,17 @@ function App() {
   });
   const [isLoggedIn, setLoggedIn, removeLogin] = useCookies(['user']);
 
-  //todo: fix this
-  const setUser = useCallback(() =>{
+  useEffect(() => {
+    console.log('useEffect'); //todo: remove debug
     api.get('/me').then((res) => {
       setLoggedIn('user', res.data);
     }).catch(() => {
       console.log('remove'); //todo: remove debug
       removeLogin('user');
     })
-  }, [setLoggedIn, removeLogin])
+  }, [setLoggedIn])
 
-  setUser();
 
-  console.log('test'); //todo: remove debug
 
   const toggleColorScheme = (value?: ColorScheme) =>
       setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
@@ -44,7 +42,7 @@ function App() {
                   <Routes>
                     <Route path={''} element={<Dashboard/>}></Route>
                     <Route path={'/workload'} element={<Workload/>}></Route>
-                    <Route path="*" element={<p>There's nothing here: 404!</p>} />
+                    <Route path="*" element={<Navigate to={'/'} replace />} />
                   </Routes>
                 </Layout> :
                 <Routes>

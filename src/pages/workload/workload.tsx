@@ -1,10 +1,11 @@
 import {Card, Image, Progress, SimpleGrid, Text} from "@mantine/core";
 import styles from './workload.module.css';
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {DateRangePicker, DateRangePickerValue} from "@mantine/dates";
 import 'dayjs/locale/de';
 import {User} from "../../lib/models";
 import DayBox from "../../components/DayBox/DayBox";
+import {api} from "../../lib/api";
 
 const Workload = () => {
     const getDayInWeek = (d: Date, dayNo: number) => {
@@ -24,10 +25,10 @@ const Workload = () => {
         new Date(friday),
     ]);
 
-    const getData: () => Promise<void> = useCallback(async () => {
+    const getUrlFromDates = () => {
         if (date[0] !== null && date[1] !== null) {
             //need to use swedish here for the correct time format
-            await fetch(process.env.NEXT_PUBLIC_API_URL + '/workload/1/' + date[0].toLocaleDateString('sv-SE', {
+            return date[0].toLocaleDateString('sv-SE', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit'
@@ -35,20 +36,18 @@ const Workload = () => {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit'
-            }).split('/').reverse().join('-') + '/', {
-                mode: 'cors',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                }
-            }).then((data) => {
-                data.json().then((res) => {
-                    setUsers(res);
-                })
+            }).split('/').reverse().join('-')
+        }
+        return undefined;
+    }
+
+    useEffect(() => {
+        if (date[0] !== null && date[1] !== null) {
+            api.get(`/workload/1/${getUrlFromDates()}/`).then((res) => {
+                setUsers(res.data);
             })
         }
     }, [date])
-
-    getData().then(() => {})
 
     const changeDateRange = (dates: DateRangePickerValue) => {
         setDate(dates);
