@@ -5,6 +5,7 @@ import {UserButton} from "../UserButton/UserButton";
 import {useCookies} from "react-cookie";
 import {User} from "../../lib/models";
 import {api} from "../../lib/api";
+import {useNavigate} from "react-router-dom";
 
 interface OAuth {
     name: string;
@@ -15,8 +16,8 @@ interface OAuth {
 function UserModal() {
     const {classes} = useModalStyles();
     const [opened, setOpened] = useState(false);
-    const [jsonUser] = useCookies<string>(['user']);
-    const user: User = jsonUser.user; //todo: prettier
+    const [cookies, , removeCookie] = useCookies<string>(['user']);
+    const user: User = cookies.user; //todo: prettier
 
     const [oauth, setOAuth] = useState<OAuth[]>([]);
 
@@ -32,6 +33,15 @@ function UserModal() {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
+    const navigate = useNavigate();
+    const handleLogout = () =>{
+        api.get('/user/logout').then(() => {
+            removeCookie('user');
+            removeCookie('XSRF-TOKEN');
+            navigate('/login');
+        });
+
+    }
 
     return (
         <>
@@ -60,7 +70,7 @@ function UserModal() {
                             })
                             : undefined}
                     </div>
-                    <Button component="a" href="#" variant="outline" leftIcon={<Logout size={14}/>}>Logout</Button>
+                    <Button component="a" href="#" variant="outline" leftIcon={<Logout size={14}/>} onClick={handleLogout}>Logout</Button>
                 </div>
             </Modal>
             <UserButton
