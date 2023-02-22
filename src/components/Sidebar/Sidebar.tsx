@@ -1,14 +1,11 @@
-import {Navbar, Group, Code, ScrollArea, createStyles, Modal, Button, Avatar} from '@mantine/core';
-import { UserButton } from '../UserButton/UserButton';
+import {Navbar, Group, Code, ScrollArea, createStyles} from '@mantine/core';
 import LinksGroup from '../NavbarLinksGroup/NavbarLinksGroup';
-import React, {useState} from "react";
-import {Logout} from 'tabler-icons-react';
-import {useCookies} from "react-cookie";
+import React from "react";
 import {navigation} from "../../lib/navigation";
-import {User} from "../../lib/models";
+import UserModal from '../UserModal/UserModal';
 
 
-const useStyles = createStyles((theme) => ({
+const useSidebarStyles = createStyles((theme) => ({
     navbar: {
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
         paddingBottom: 0,
@@ -35,22 +32,12 @@ const useStyles = createStyles((theme) => ({
     footer: {
         marginLeft: -theme.spacing.md,
         marginRight: -theme.spacing.md
-    },
-
-    besides: {
-        display: 'flex',
-        gap: "1rem",
-        alignItems: 'center',
-        marginBottom: '3rem'
     }
 }));
 
 const Sidebar = () => {
-    const { classes } = useStyles();
+    const { classes } = useSidebarStyles();
     const links = navigation.map((item) => <LinksGroup {...item} key={item.label} />);
-    const [jsonUser] = useCookies<string>(['user']);
-    const user: User = jsonUser.user; //todo: prettier
-    const [opened, setOpened] = useState(false);
 
     return (
         <>
@@ -66,28 +53,7 @@ const Sidebar = () => {
             </Navbar.Section>
 
             <Navbar.Section className={classes.footer}>
-                <Modal
-                    opened={opened}
-                    onClose={() => setOpened(false)}
-                    title="Logged in as"
-                >
-                    <div>
-                        <div className={classes.besides}>
-                            <Avatar src={user.avatar}></Avatar>
-                            <div>
-                                <strong>{user.name}</strong>
-                                <div>{user.email}</div>
-                            </div>
-                        </div>
-                        <Button component="a" href="#" variant="outline" leftIcon={<Logout size={14} />}>Logout</Button>
-                    </div>
-                </Modal>
-                <UserButton
-                    image={user.avatar}
-                    name={user.name}
-                    email={user.email}
-                    onClick={setOpened}
-                />
+                <UserModal/>
             </Navbar.Section>
         </>
     );

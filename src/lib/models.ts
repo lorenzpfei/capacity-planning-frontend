@@ -7,6 +7,8 @@ export interface User {
     avatar: string;
     workload?: Workload[];
     workloadSum?: Workload;
+    task_user_id: number;
+    tracking_user_id: number;
 }
 
 export interface Task {

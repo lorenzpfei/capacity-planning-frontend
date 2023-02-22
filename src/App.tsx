@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {ColorScheme, ColorSchemeProvider, MantineProvider} from "@mantine/core";
 import {useLocalStorage} from "@mantine/hooks";
@@ -20,13 +20,13 @@ function App() {
 
   useEffect(() => {
     console.log('useEffect'); //todo: remove debug
-    api.get('/me').then((res) => {
+    api.get('/user/me').then((res) => {
       setLoggedIn('user', res.data);
     }).catch(() => {
       console.log('remove'); //todo: remove debug
       removeLogin('user');
     })
-  }, [setLoggedIn])
+  }, [setLoggedIn, removeLogin])
 
 
 
