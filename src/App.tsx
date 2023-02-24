@@ -19,7 +19,6 @@ function App() {
   const [isLoggedIn, setLoggedIn, removeLogin] = useCookies(['user']);
 
   useEffect(() => {
-    console.log('useEffect'); //todo: remove debug
     api.get('/user/me').then((res) => {
       setLoggedIn('user', res.data);
     }).catch(() => {
@@ -41,7 +40,7 @@ function App() {
                 <Layout>
                   <Routes>
                     <Route path={''} element={<Dashboard/>}></Route>
-                    <Route path={'/workload'} element={<Workload/>}></Route>
+                    <Route path={'/capacities'} element={<Workload/>}></Route>
                     <Route path="*" element={<Navigate to={'/'} replace />} />
                   </Routes>
                 </Layout> :

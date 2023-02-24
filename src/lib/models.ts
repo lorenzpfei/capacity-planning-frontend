@@ -1,9 +1,12 @@
-export interface User {
+interface Timestamps{
+    created_at: string;
+    updated_at: string;
+}
+
+export interface User extends Timestamps{
     id: number;
     name: string;
     email: string;
-    created_at: string;
-    updated_at: string;
     avatar: string;
     workload?: Workload[];
     workloadSum?: Workload;
@@ -24,11 +27,14 @@ export interface Workload {
     date: string;
 }
 
-export interface User {
+export interface User extends Timestamps{
     id: number;
     name: string;
     email: string;
     avatar: string;
-    created_at: string;
-    updated_at: string;
+}
+
+export interface Department extends Timestamps{
+    id: number;
+    name: string;
 }

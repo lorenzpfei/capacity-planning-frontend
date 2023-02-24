@@ -22,9 +22,9 @@ export type NavigationChildItem = {
 export const navigation: NavigationItem[] = [
     {label: 'Dashboard', icon: Home, link: '/'},
     {
-        label: 'Workload',
+        label: 'Capacities',
         icon: Gauge,
-        link: '/workload'
+        link: '/capacities'
     },
     {label: 'Analytics', icon: PresentationAnalytics},
     {label: 'Contracts', icon: FileAnalytics},
