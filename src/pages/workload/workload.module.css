@@ -71,3 +71,7 @@ div.card
     flex-direction: column;
     justify-content: flex-start;
 }
+
+div.flex{
+    display: flex;
+}
