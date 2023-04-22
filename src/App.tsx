@@ -45,7 +45,7 @@ function App() {
                   </Routes>
                 </Layout> :
                 <Routes>
-                  <Route path={'/login'} element={<Login/>}></Route>
+                  <Route path={'/'} element={<Login/>}></Route>
                   <Route path="*" element={<Navigate to={'/login'} replace />} />
                 </Routes>}
           </MantineProvider>
