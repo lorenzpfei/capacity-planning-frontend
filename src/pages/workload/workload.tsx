@@ -17,7 +17,7 @@ const Workload = () => {
 
     const [department, setDepartment] = useState<Department>();
     const [departments, setDepartments] = useState<Department[]>([]);
-    const [formatedDepartment, setFormatedDepartment] = useState<(SelectItem)[]>([]);
+    const [formatedDepartment, setFormatedDepartment] = useState<(SelectItem)[]>([]); //todo: rename
 
     let monday = getDayInWeek(new Date(), 1);
     let friday = getDayInWeek(new Date(), 5);
@@ -140,7 +140,7 @@ const Workload = () => {
                                                     <div>
                                                         <Text size="lg" weight={500}>{user.name}</Text>
                                                         <Text size="xs" transform="uppercase" weight={700}
-                                                              color="dimmed">{Math.round(user.workloadSum.hoursTimeoff + user.workloadSum.hoursTask * 100) / 100} / {user.workloadSum?.hoursContract} Hours</Text>
+                                                              color="dimmed">{Math.round((user.workloadSum.hoursTimeoff + user.workloadSum.hoursTask) * 100) / 100} / {user.workloadSum?.hoursContract} Hours</Text>
                                                     </div>
                                                 </div>
                                             </div>
