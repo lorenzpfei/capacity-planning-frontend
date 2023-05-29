@@ -1,4 +1,4 @@
-import { Navbar, Group, Code, ScrollArea, createStyles } from '@mantine/core'
+import { Navbar, Group, Code, ScrollArea, createStyles, useMantineColorScheme } from '@mantine/core'
 import LinksGroup from '../NavbarLinksGroup/NavbarLinksGroup'
 import React from 'react'
 import { navigation } from '../../lib/navigation'
@@ -32,17 +32,29 @@ const useSidebarStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
   },
+  logo: {
+    maxWidth: "calc(100% - 120px)"
+  }
 }))
 
 const Sidebar = (): React.JSX.Element => {
   const { classes } = useSidebarStyles()
   const links = navigation.map((item) => <LinksGroup {...item} key={item.label} />)
+  const { colorScheme } = useMantineColorScheme()
 
   return (
     <>
       <Navbar.Section className={classes.header}>
         <Group position="apart">
-          Logo
+          <img
+            src={
+              colorScheme === 'dark'
+                ? process.env.REACT_APP_LOGO_URL_DARKMODE
+                : process.env.REACT_APP_LOGO_URL_WHITEMODE
+            }
+            alt={process.env.REACT_APP_COMPANY_NAME}
+            className={classes.logo}
+          />
           <Code sx={{ fontWeight: 700 }}>v1.0.0</Code>
         </Group>
       </Navbar.Section>

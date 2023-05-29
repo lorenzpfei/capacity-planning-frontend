@@ -1,7 +1,7 @@
 import type { SelectItem } from '@mantine/core'
 import { Card, Image, Progress, Select, SimpleGrid, Text } from '@mantine/core'
 import styles from './workload.module.css'
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { DateRangePickerValue } from '@mantine/dates'
 import { DateRangePicker } from '@mantine/dates'
 import 'dayjs/locale/de'
@@ -29,26 +29,28 @@ const Workload = (): React.JSX.Element => {
 
   const [date, setDate] = useState<Date[]>([new Date(monday), new Date(friday)])
 
-  const getUrlFromDates = useCallback((): string =>
-    //need to use swedish here for the correct time format
-     `${date[0]
-      .toLocaleDateString('sv-SE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-      .split('/')
-      .reverse()
-      .join('-')}/${date[1]
-      .toLocaleDateString('sv-SE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-      .split('/')
-      .reverse()
-      .join('-')}`
-  , [date])
+  const getUrlFromDates = useCallback(
+    (): string =>
+      //need to use swedish here for the correct time format
+      `${date[0]
+        .toLocaleDateString('sv-SE', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+        .split('/')
+        .reverse()
+        .join('-')}/${date[1]
+        .toLocaleDateString('sv-SE', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+        .split('/')
+        .reverse()
+        .join('-')}`,
+    [date]
+  )
 
   useEffect(() => {
     if (departments.length > 0 && !selectedDepartment) {
@@ -62,11 +64,10 @@ const Workload = (): React.JSX.Element => {
       void api
         .get(`/workload/${selectedDepartment.id}/${getUrlFromDates()}/`)
         .then((res: AxiosResponse<User[]>) => {
-          setUsers(res.data);
-        });
+          setUsers(res.data)
+        })
     }
-  }, [selectedDepartment, getUrlFromDates]);
-
+  }, [selectedDepartment, getUrlFromDates])
 
   useEffect(() => {
     void api.get('/departments').then((res: AxiosResponse<Department[]>) => {
@@ -83,10 +84,10 @@ const Workload = (): React.JSX.Element => {
       })
       setSelectItems([...formatedDepartments])
     })
-  }, [selectedDepartment?.id]);
+  }, [selectedDepartment?.id])
 
   const changeDateRange = (dates: DateRangePickerValue): void => {
-    if(dates[0] !== null && dates[1] !== null){
+    if (dates[0] !== null && dates[1] !== null) {
       setDate(dates as Date[])
     }
   }

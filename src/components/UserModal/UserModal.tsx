@@ -29,21 +29,20 @@ const UserModal = (): React.JSX.Element => {
   const { classes } = useModalStyles()
   const [opened, setOpened] = useState(false)
   const [cookies, , removeCookie] = useCookies<string>(['user'])
-  const [userFromSession, setUserFromSession]= useState<UserFromSession | null>(null)
+  const [userFromSession, setUserFromSession] = useState<UserFromSession | null>(null)
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     const { user } = cookies
     if (user) {
       try {
         if (user && typeof user === 'object' && 'email' in user) {
-          setUserFromSession(user as UserFromSession);
+          setUserFromSession(user as UserFromSession)
         }
       } catch (err: unknown) {
         console.error('Error parsing user:', err)
       }
     }
-  }, [cookies]);
+  }, [cookies])
 
   const [oauth, setOAuth] = useState<OAuth[]>([])
 
