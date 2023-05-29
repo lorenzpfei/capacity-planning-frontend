@@ -1,7 +1,7 @@
 import type { SelectItem } from '@mantine/core'
 import { Card, Image, Progress, Select, SimpleGrid, Text } from '@mantine/core'
 import styles from './workload.module.css'
-import { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import type { DateRangePickerValue } from '@mantine/dates'
 import { DateRangePicker } from '@mantine/dates'
 import 'dayjs/locale/de'
@@ -10,7 +10,7 @@ import DayBox from '../../components/DayBox/DayBox'
 import { api } from '../../lib/api'
 import type { AxiosResponse } from 'axios'
 
-const Workload = (): JSX.Element => {
+const Workload = (): React.JSX.Element => {
   const getDayInWeek = (date: Date, dayNo: number): Date => {
     const parsedDate = new Date(date)
     const day = parsedDate.getDay(),
@@ -18,24 +18,20 @@ const Workload = (): JSX.Element => {
     return new Date(parsedDate.setDate(diff))
   }
 
-  const [department, setDepartment] = useState<Department>()
+  const [selectedDepartment, setSelectedDepartment] = useState<Department>()
   const [departments, setDepartments] = useState<Department[]>([])
-  const [formatedDepartment, setFormatedDepartment] = useState<SelectItem[]>([]) //todo: rename
+  const [selectItems, setSelectItems] = useState<SelectItem[]>([])
 
   const [users, setUsers] = useState<User[]>([])
 
   const monday = getDayInWeek(new Date(), 1)
   const friday = getDayInWeek(new Date(), 5)
 
-  const [date, setDate] = useState<DateRangePickerValue>([new Date(monday), new Date(friday)])
+  const [date, setDate] = useState<Date[]>([new Date(monday), new Date(friday)])
 
-  const getUrlFromDates = useCallback((): string => {
-    if (date[0] === null || date[1] === null) {
-      setDate([new Date(monday), new Date(friday)])
-    }
-    const typedDate = date as Date[]
+  const getUrlFromDates = useCallback((): string =>
     //need to use swedish here for the correct time format
-    return `${typedDate[0]
+     `${date[0]
       .toLocaleDateString('sv-SE', {
         year: 'numeric',
         month: '2-digit',
@@ -43,7 +39,7 @@ const Workload = (): JSX.Element => {
       })
       .split('/')
       .reverse()
-      .join('-')}/${typedDate[1]
+      .join('-')}/${date[1]
       .toLocaleDateString('sv-SE', {
         year: 'numeric',
         month: '2-digit',
@@ -52,17 +48,25 @@ const Workload = (): JSX.Element => {
       .split('/')
       .reverse()
       .join('-')}`
-  }, [date, friday, monday])
+  , [date])
 
   useEffect(() => {
-    if (date[0] !== null && date[1] !== null && department) {
-      void api
-        .get(`/workload/${department.id}/${getUrlFromDates()}/`)
-        .then((res: AxiosResponse<User[]>) => {
-          setUsers(res.data)
-        })
+    if (departments.length > 0 && !selectedDepartment) {
+      setSelectedDepartment(departments[0])
     }
-  }, [date, department, getUrlFromDates])
+  }, [selectedDepartment, departments])
+
+  // Fetching workload data
+  useEffect(() => {
+    if (selectedDepartment) {
+      void api
+        .get(`/workload/${selectedDepartment.id}/${getUrlFromDates()}/`)
+        .then((res: AxiosResponse<User[]>) => {
+          setUsers(res.data);
+        });
+    }
+  }, [selectedDepartment, getUrlFromDates]);
+
 
   useEffect(() => {
     void api.get('/departments').then((res: AxiosResponse<Department[]>) => {
@@ -70,50 +74,51 @@ const Workload = (): JSX.Element => {
 
       //need to reformat array to work in select
       const formatedDepartments = res.data.map((item: Department) => {
-        const selectItem: SelectItem = {
+        const tempSelectItem: SelectItem = {
           value: item.id.toString(),
           label: item.name,
-          selected: item.id === department?.id,
+          selected: item.id === selectedDepartment?.id,
         }
-        return selectItem
+        return tempSelectItem
       })
-      setFormatedDepartment([...formatedDepartments])
-      setDepartment(res.data[0])
+      setSelectItems([...formatedDepartments])
     })
-  }, [department?.id])
+  }, [selectedDepartment?.id]);
 
   const changeDateRange = (dates: DateRangePickerValue): void => {
-    setDate(dates)
+    if(dates[0] !== null && dates[1] !== null){
+      setDate(dates as Date[])
+    }
   }
 
   const changeDepartment = (departmentValue: number): void => {
     const newDepartment = departments.find((item) => item.id === departmentValue)
     if (newDepartment) {
-      setDepartment(newDepartment)
+      setSelectedDepartment(newDepartment)
     }
   }
 
   return (
     <>
       <h1>Capacities</h1>
-      {formatedDepartment.length > 0 ? (
+      {selectItems.length > 0 && selectedDepartment ? (
         <>
           <div className={styles.flex}>
             <Select
               label="Pick a department"
               placeholder="Pick one"
-              defaultValue={department?.id.toString()}
-              data={formatedDepartment}
+              defaultValue={selectedDepartment.id.toString()}
+              data={selectItems}
               onChange={(value) => changeDepartment(parseInt(value as string, 10))}
             />
           </div>
-          <h2>{department?.name}</h2>
+          <h2>{selectedDepartment.name}</h2>
           <div className={styles.week}>
             <div className={styles.info}>
               <DateRangePicker
                 label="Select period"
                 placeholder="Select period"
-                value={date}
+                value={date as DateRangePickerValue}
                 onChange={changeDateRange}
                 locale={'de'}
                 inputFormat="DD.MM.YYYY"

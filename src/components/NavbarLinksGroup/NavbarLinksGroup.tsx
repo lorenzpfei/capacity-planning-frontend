@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Collapse, UnstyledButton, createStyles } from '@mantine/core'
 import type { NavigationItem } from '../../lib/navigation'
 import { Link } from 'react-router-dom'
@@ -50,7 +50,7 @@ const LinksGroup = ({
   link,
   initiallyOpened,
   childs,
-}: NavigationItem): JSX.Element => {
+}: NavigationItem): React.JSX.Element => {
   const { classes, theme } = useStyles()
   const hasLinks = Array.isArray(childs)
   const [opened, setOpened] = useState(initiallyOpened ?? false)

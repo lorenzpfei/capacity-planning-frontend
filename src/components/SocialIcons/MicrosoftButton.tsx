@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function MicrosoftButton(): JSX.Element {
+export function MicrosoftButton(): React.JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

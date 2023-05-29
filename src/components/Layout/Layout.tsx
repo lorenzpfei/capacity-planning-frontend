@@ -13,7 +13,7 @@ import {
 import { MoonStars, Sun } from 'tabler-icons-react'
 import Sidebar from '../Sidebar/Sidebar'
 
-export default function Layout({ children }: { children: React.ReactNode }): JSX.Element {
+export default function Layout({ children }: { children: React.ReactNode }): React.JSX.Element {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()

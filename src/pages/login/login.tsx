@@ -19,7 +19,7 @@ import React from 'react'
 import { MicrosoftButton } from '../../components/SocialIcons/SocialIcons'
 import { Link } from 'react-router-dom'
 
-const Login = (): JSX.Element => {
+const Login = (): React.JSX.Element => {
   const [type] = useToggle(['login', 'register'])
   const form = useForm({
     initialValues: {

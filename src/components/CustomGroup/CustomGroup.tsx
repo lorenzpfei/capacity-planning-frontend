@@ -2,6 +2,7 @@ import type { MantineTheme } from '@mantine/core'
 import { Box, Group, ThemeIcon } from '@mantine/core'
 import type { Icon } from 'tabler-icons-react'
 import { ChevronLeft } from 'tabler-icons-react'
+import React from "react";
 
 interface ICustomGroups {
   icon: Icon
@@ -19,7 +20,7 @@ const CustomGroup = ({
   classes,
   opened,
   theme,
-}: ICustomGroups): JSX.Element => {
+}: ICustomGroups): React.JSX.Element => {
   const ChevronIcon = theme.dir === 'ltr' ? ChevronLeft : ChevronLeft
   return (
     <Group position="apart" spacing={0}>

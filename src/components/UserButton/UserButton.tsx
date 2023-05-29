@@ -32,7 +32,7 @@ const UserButton = ({
   icon,
   onClick,
   ...others
-}: UserButtonProps): JSX.Element => {
+}: UserButtonProps): React.JSX.Element => {
   const { classes } = useStyles()
 
   return (

@@ -11,7 +11,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import Dashboard from './pages/dashboard/dashboard'
 import Workload from './pages/workload/workload'
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'light',

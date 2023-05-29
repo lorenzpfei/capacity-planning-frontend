@@ -34,7 +34,7 @@ const useSidebarStyles = createStyles((theme) => ({
   },
 }))
 
-const Sidebar = (): JSX.Element => {
+const Sidebar = (): React.JSX.Element => {
   const { classes } = useSidebarStyles()
   const links = navigation.map((item) => <LinksGroup {...item} key={item.label} />)
 

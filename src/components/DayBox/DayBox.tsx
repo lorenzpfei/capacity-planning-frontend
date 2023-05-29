@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Modal, Stack } from '@mantine/core'
 import styles from '../../pages/workload/workload.module.css'
 import type { Workload } from '../../lib/models'
 
-const DayBox = ({ workload }: { workload: Workload }): JSX.Element => {
+const DayBox = ({ workload }: { workload: Workload }): React.JSX.Element => {
   const [opened, setOpened] = useState(false)
 
   const formatDate = (date: string): string => {
@@ -28,7 +28,7 @@ const DayBox = ({ workload }: { workload: Workload }): JSX.Element => {
       ? 'linear-gradient(180deg, rgba(238,142,141,1) 0%, rgba(214,92,91,1) 100%)'
       : 'linear-gradient(180deg, rgba(115,201,171,1) 0%, rgba(91,175,143,1) 100%)'
 
-  const getBoxText = (): JSX.Element =>
+  const getBoxText = (): React.JSX.Element =>
     (workload.hoursTask / workload.hoursContract) * 100 === 100 ? (
       <>
         <b>{workload.hoursTask}h</b>
