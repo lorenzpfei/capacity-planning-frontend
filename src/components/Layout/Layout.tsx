@@ -63,7 +63,8 @@ export default function Layout({ children }: { children: React.ReactNode }): Rea
                 width: '100%',
               }}
             >
-              <Text>&nbsp;</Text>{/* Place for some links or something */}
+              <Text>&nbsp;</Text>
+              {/* Place for some links or something */}
               <Switch
                 checked={colorScheme === 'dark'}
                 onChange={() => toggleColorScheme()}

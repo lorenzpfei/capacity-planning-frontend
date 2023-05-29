@@ -33,8 +33,8 @@ const useSidebarStyles = createStyles((theme) => ({
     marginRight: -theme.spacing.md,
   },
   logo: {
-    maxWidth: "calc(100% - 120px)"
-  }
+    maxWidth: 'calc(100% - 120px)',
+  },
 }))
 
 const Sidebar = (): React.JSX.Element => {
