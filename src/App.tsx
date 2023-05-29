@@ -10,6 +10,7 @@ import Login from './pages/login/login'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Dashboard from './pages/dashboard/dashboard'
 import Workload from './pages/workload/workload'
+import { IntlProvider } from 'react-intl'
 
 function App(): React.JSX.Element {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -26,7 +27,6 @@ function App(): React.JSX.Element {
         setLoggedIn('user', res.data)
       })
       .catch(() => {
-        console.log('remove') //todo: remove debug
         removeLogin('user')
       })
   }, [setLoggedIn, removeLogin])
@@ -38,20 +38,22 @@ function App(): React.JSX.Element {
     <div>
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          {isLoggedIn.user ? (
-            <Layout>
+          <IntlProvider locale={navigator.language} defaultLocale="en">
+            {isLoggedIn.user ? (
+              <Layout>
+                <Routes>
+                  <Route path={''} element={<Dashboard />} />
+                  <Route path={'/capacities'} element={<Workload />} />
+                  <Route path="*" element={<Navigate to={'/'} replace />} />
+                </Routes>
+              </Layout>
+            ) : (
               <Routes>
-                <Route path={''} element={<Dashboard />} />
-                <Route path={'/capacities'} element={<Workload />} />
-                <Route path="*" element={<Navigate to={'/'} replace />} />
+                <Route path={'/'} element={<Login />} />
+                <Route path="*" element={<Navigate to={'/login'} replace />} />
               </Routes>
-            </Layout>
-          ) : (
-            <Routes>
-              <Route path={'/'} element={<Login />} />
-              <Route path="*" element={<Navigate to={'/login'} replace />} />
-            </Routes>
-          )}
+            )}
+          </IntlProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </div>

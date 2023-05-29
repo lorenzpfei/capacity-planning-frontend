@@ -2,21 +2,18 @@ import React, { useState } from 'react'
 import { Modal, Stack } from '@mantine/core'
 import styles from '../../pages/workload/workload.module.css'
 import type { Workload } from '../../lib/models'
+import { FormattedDate } from 'react-intl'
 
 const DayBox = ({ workload }: { workload: Workload }): React.JSX.Element => {
   const [opened, setOpened] = useState(false)
 
-  const formatDate = (date: string): string => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }
-    const optionsDay: Intl.DateTimeFormatOptions = { weekday: 'short' }
-    return `${new Date(date).toLocaleDateString([], optionsDay)} ${new Date(
-      date
-    ).toLocaleDateString([], options)}`
-  }
+  const formatDate = (date: Date): React.JSX.Element => (
+    <>
+      <FormattedDate value={date} weekday="short" />
+      <span> </span>
+      <FormattedDate value={date} year="numeric" month="2-digit" day="2-digit" />
+    </>
+  )
 
   const getBoxHeight = (): string => {
     const percent = (workload.hoursTask / workload.hoursContract) * 100
@@ -56,7 +53,7 @@ const DayBox = ({ workload }: { workload: Workload }): React.JSX.Element => {
           <div>No Tasks.</div>
         )}
       </Modal>
-      <div className={styles.header}>{formatDate(workload.date)}</div>
+      <div className={styles.header}>{formatDate(new Date(Date.parse(workload.date)))}</div>
       <div className={styles.boxBackground}>
         <div
           className={styles.boxInside}

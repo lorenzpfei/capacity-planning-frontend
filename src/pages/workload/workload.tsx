@@ -9,6 +9,7 @@ import type { Department, User } from '../../lib/models'
 import DayBox from '../../components/DayBox/DayBox'
 import { api } from '../../lib/api'
 import type { AxiosResponse } from 'axios'
+import { useIntl } from 'react-intl'
 
 const Workload = (): React.JSX.Element => {
   const getDayInWeek = (date: Date, dayNo: number): Date => {
@@ -17,6 +18,8 @@ const Workload = (): React.JSX.Element => {
       diff = parsedDate.getDate() - day + (day === 0 ? -6 : dayNo) // adjust when day is sunday
     return new Date(parsedDate.setDate(diff))
   }
+
+  const intl = useIntl()
 
   const [selectedDepartment, setSelectedDepartment] = useState<Department>()
   const [departments, setDepartments] = useState<Department[]>([])
@@ -121,8 +124,8 @@ const Workload = (): React.JSX.Element => {
                 placeholder="Select period"
                 value={date as DateRangePickerValue}
                 onChange={changeDateRange}
-                locale={'de'}
-                inputFormat="DD.MM.YYYY"
+                locale={intl.locale}
+                inputFormat={'DD/MM/YYYY'}
               />
             </div>
           </div>
