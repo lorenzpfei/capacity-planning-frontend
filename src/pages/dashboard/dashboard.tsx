@@ -1,9 +1,5 @@
-const Dashboard = () => {
-    return (
-        <>
-            content
-        </>
-    )
-}
+import React from 'react'
 
-export default Dashboard;
+const Dashboard = (): React.JSX.Element => <>Your content.</>
+
+export default Dashboard
