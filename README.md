@@ -5,6 +5,8 @@ in the frontend. You can find the more detailed documentation there.
 
 The data is fetched from the backend via REST. The login is only available via OAuth so far.
 
+This app is also be available and can be used as a Progressive Web App.
+
 ![Capacity View](docs/capacities.png  "Capacity View")
 
 
